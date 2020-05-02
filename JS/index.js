@@ -1,12 +1,12 @@
 
-
 ////// (6) \\\\\\ 
 const guideList = document.querySelector('.guides');
 
 ////// (7) get data from firebase \\\\\\ 
 
 const setUpGuides = (data) =>{
-    let html = ''; 
+   
+ let html = ''; 
 
     data.forEach(doc => {
         const guide = doc.data();
