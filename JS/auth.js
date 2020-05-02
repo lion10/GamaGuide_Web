@@ -8,16 +8,17 @@ auth.onAuthStateChanged(user => {
         db.collection('guides').get().then(snapshot => {
             //console.log(snapshot);
             setUpGuides(snapshot.docs);
+            setUpUi(user);
         });
-        
-    }else{
+    
+    }
+    else{
+        setUpUi();
         setUpGuides([]);
     }
 
 
 });
-
-
 
 
 

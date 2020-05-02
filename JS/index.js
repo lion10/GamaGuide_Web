@@ -1,26 +1,44 @@
 
 ////// (6) \\\\\\ 
 const guideList = document.querySelector('.guides');
+////// (9) \\\\\\ 
+const loggedInLinks = document.querySelectorAll('.logged-in')
+const loggedOutLinks = document.querySelectorAll('.logged-out')
+
+////// (10) setUpUi to toggel UI elements \\\\\\ 
+const setUpUi = (user) => {
+
+    if(user){
+        loggedInLinks.forEach(item => item.style.display = 'block');
+        loggedOutLinks.forEach(item => item.style.display = 'none');
+      
+    }else{
+        loggedInLinks.forEach(item => item.style.display = 'none');
+        loggedOutLinks.forEach(item => item.style.display = 'block');
+    }
+
+}
+
+
 
 ////// (7) get data from firebase \\\\\\ 
-
 const setUpGuides = (data) =>{
-   
- let html = ''; 
-
-    data.forEach(doc => {
-        const guide = doc.data();
-        const li = `
-            <li>
-                <div class="collapsible-header grey lighten-4">${guide.title}</div>
-                <div class="collapsible-body white">${guide.content}</div>
-            </li>      
-        `;
-        html += li; 
-    });
-
-    guideList.innerHTML = html;
-}
+        if (data.length) {
+            let html = '';
+            data.forEach(doc => {
+              const guide = doc.data();
+              const li = `
+                <li>
+                  <div class="collapsible-header grey lighten-4"> ${guide.title} </div>
+                  <div class="collapsible-body white"> ${guide.content} </div>
+                </li>
+              `;
+              html += li;
+            });
+            guideList.innerHTML = html
+          } else {
+            guideList.innerHTML = '<h5 class="red-text darken-4 center-align bold">Please login to view guides! </h5>';          }
+        }
 
 
 ////// setup materilize components \\\\\\ 
