@@ -12,14 +12,25 @@ const accountDetails = document.querySelector('.account-details');
 const setUpUi = (user) => {
 
     if(user){
-        const  html = `<div>Loggeed in as ${user.email}</div>`;
+      ////// (14) account info\\\\\\ 
+      db.collection('users').doc(user.uid).get().then(doc =>{
+        const  html = `
+          <div>Loggeed in as ${user.email}</div>
+          <div>${doc.data().bio}</div>
+        `;
         accountDetails.innerHTML = html; 
+      });
 
+        //toggle
         loggedInLinks.forEach(item => item.style.display = 'block');
         loggedOutLinks.forEach(item => item.style.display = 'none');
 
     }
     else{
+        // hide account information
+        accountDetails.innerHTML = ''; 
+
+        //toggle
         loggedInLinks.forEach(item => item.style.display = 'none');
         loggedOutLinks.forEach(item => item.style.display = 'block');
     }

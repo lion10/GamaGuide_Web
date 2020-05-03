@@ -5,34 +5,31 @@
 let unsubscribe = () => {};
 auth.onAuthStateChanged(user => {    
     //(8)
-    // if (user){  
-    //     db.collection('guides').onSnapshot(snapshot => {
-    //         //console.log(snapshot);
-    //         setUpGuides(snapshot.docs);
-    //         setUpUi(user);
-    //     }).catch( (err) =>{
-    //         console.log(err.message);
-    //     });
-    
-    // }
-    // else{
-    //     setUpUi();
-    //     setUpGuides([]);
-    // }
-  
-    // listen for auth changes
-  
-      if(user){
-        // get data
-            unsubscribe = db.collection('guides').onSnapshot(snapshot => {
+    if (user){  
+        db.collection('guides').onSnapshot(snapshot => {
+            //console.log(snapshot);
             setUpGuides(snapshot.docs);
             setUpUi(user);
-        });    
-      } else {
-            setUpGuides([]);
-            setUpUi();
-            unsubscribe();
-      }
+        }, err => {
+            console.log(err.message);
+        });
+    }
+    else{
+        setUpUi();
+        setUpGuides([]);
+    }
+  
+    //   if(user){
+    //     // get data
+    //         unsubscribe = db.collection('guides').onSnapshot(snapshot => {
+    //         setUpGuides(snapshot.docs);
+    //         setUpUi(user);
+    //     });    
+    //   } else {
+    //         setUpGuides([]);
+    //         setUpUi();
+    //         unsubscribe();
+    //   }
 });
 
     ////// (11) Crete new guide \\\\\\ 
@@ -58,7 +55,7 @@ auth.onAuthStateChanged(user => {
 
 
 
-    ////// (1) sign up \\\\\\ 
+    ////// (1) sign up  =>  (13) firestore user collection get uid for firbase auth section \\\\\\ 
 const signUpForm = document.querySelector('#signup-form');
 signUpForm.addEventListener('submit',(e) => {
     
@@ -68,13 +65,18 @@ signUpForm.addEventListener('submit',(e) => {
     const email = signUpForm['signup-email'].value;
     const password = signUpForm['signup-password'].value;
     
+    
 
     // signup the user 
     auth.createUserWithEmailAndPassword(email,password).then(cred =>{
-            //console.log(cred.user);
-            const modal = document.querySelector('#modal-signup');
-            M.Modal.getInstance(modal).close();
-            signUpForm.reset(); // close form field       
+        return db.collection('users').doc(cred.user.uid).set({
+            bio: signUpForm['signup-bio'].value
+        });
+    }).then(()=>{
+        //console.log(cred.user);
+        const modal = document.querySelector('#modal-signup');
+        M.Modal.getInstance(modal).close();
+        signUpForm.reset(); // close form field             
     });
 
 });
