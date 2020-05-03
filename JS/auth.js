@@ -5,7 +5,7 @@ auth.onAuthStateChanged(user => {
     
     //(8)
     if (user){  
-        db.collection('guides').get().then(snapshot => {
+        db.collection('guides').onSnapshot(snapshot => {
             //console.log(snapshot);
             setUpGuides(snapshot.docs);
             setUpUi(user);
@@ -19,6 +19,26 @@ auth.onAuthStateChanged(user => {
 
 
 });
+
+    ////// (11) Crete new guide \\\\\\ 
+
+    const createForm = document.querySelector('#create-form');
+    createForm.addEventListener('submit', (e)=>{
+        e.preventDefault();
+
+        db.collection('guides').add({
+            title : createForm['title'].value,
+            content: createForm['content'].value
+        }).then(()=>{
+            // to close modal and reset form
+            const modal = document.querySelector('#modal-create');
+            M.Modal.getInstance(modal).close();
+            createForm.reset();
+        }).catch(err => {
+            console.log(err.message);
+        });
+
+    });
 
 
 
