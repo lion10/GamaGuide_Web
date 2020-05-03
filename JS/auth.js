@@ -1,23 +1,38 @@
 
 
 ////// (4) listen for auth status change \\\\\\ 
-auth.onAuthStateChanged(user => {
-    
+
+let unsubscribe = () => {};
+auth.onAuthStateChanged(user => {    
     //(8)
-    if (user){  
-        db.collection('guides').onSnapshot(snapshot => {
-            //console.log(snapshot);
+    // if (user){  
+    //     db.collection('guides').onSnapshot(snapshot => {
+    //         //console.log(snapshot);
+    //         setUpGuides(snapshot.docs);
+    //         setUpUi(user);
+    //     }).catch( (err) =>{
+    //         console.log(err.message);
+    //     });
+    
+    // }
+    // else{
+    //     setUpUi();
+    //     setUpGuides([]);
+    // }
+  
+    // listen for auth changes
+  
+      if(user){
+        // get data
+            unsubscribe = db.collection('guides').onSnapshot(snapshot => {
             setUpGuides(snapshot.docs);
             setUpUi(user);
-        });
-    
-    }
-    else{
-        setUpUi();
-        setUpGuides([]);
-    }
-
-
+        });    
+      } else {
+            setUpGuides([]);
+            setUpUi();
+            unsubscribe();
+      }
 });
 
     ////// (11) Crete new guide \\\\\\ 
