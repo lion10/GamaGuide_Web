@@ -94,7 +94,11 @@ signUpForm.addEventListener('submit',(e) => {
         //console.log(cred.user);
         const modal = document.querySelector('#modal-signup');
         M.Modal.getInstance(modal).close();
-        signUpForm.reset(); // close form field             
+        signUpForm.reset(); // close form field  
+        signUpForm.querySelector('.error').innerHTML ='';
+           
+    }).catch(err =>{
+        signUpForm.querySelector('.error').innerHTML = err.message;
     });
 
 });
@@ -125,7 +129,11 @@ loginForm.addEventListener('submit',(e) => {
             // console.log(cred.user);
             const modal = document.querySelector('#modal-login');
             M.Modal.getInstance(modal).close();
-            loginForm.reset(); // close form field       
+            loginForm.reset(); // close form field 
+            loginForm.querySelector('.error').innerHTML = '';
+      
+    }).catch(err =>{
+        loginForm.querySelector('.error').innerHTML = err.message;
     });
 
 });
