@@ -42,7 +42,16 @@
         </ul>
       </div>
     </nav>
-    
+
+<!-- ADMIN ACTIONS -->
+
+  <form class="center-align admin-actions">
+    <div class="input-field">
+      <input type="email" placeholder ="User Email" id="admin-email"  required/>
+      <button class="btn-small yellow darken-2 z-depth-0">Make Admin</button>
+    </div>
+  </form>
+
 <!-- SIGN UP MODAL -->
   <div id="modal-signup" class="modal">
     <div class="modal-content">
@@ -125,6 +134,7 @@
     <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-functions.js"></script>
     <script>
     // Your web app's Firebase configuration
     var firebaseConfig = {
@@ -140,7 +150,8 @@
     // auth and firestore refrences
     const auth = firebase.auth();
     const db = firebase.firestore();
-
+    const functions = firebase.functions();
+    
     </script>
 
 
