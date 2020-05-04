@@ -9,7 +9,7 @@ adminForm.addEventListener('submit',(e)=>{
     addAdminRole({email:adminEmail}).then( result => {
         console.log(result);
     })
-    
+
 });
 
 
@@ -21,10 +21,13 @@ adminForm.addEventListener('submit',(e)=>{
 auth.onAuthStateChanged(user => {    
     //(8)
     if (user){  
+        user.getIdTokenResult().then( idTokenResult=>{
+            user.admin = idTokenResult.claims.admin;
+            setUpUi(user);
+        });
         db.collection('guides').onSnapshot(snapshot => {
             //console.log(snapshot);
             setUpGuides(snapshot.docs);
-            setUpUi(user);
         }, err => {
             console.log(err.message);
         });
